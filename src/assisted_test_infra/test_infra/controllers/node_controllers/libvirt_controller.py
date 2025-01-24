@@ -32,9 +32,12 @@ class LibvirtController(NodeController, ABC):
         self,
         config: BaseNodesConfig,
         entity_config: Union[BaseClusterConfig, BaseInfraEnvConfig],
-        libvirt_uri: str = consts.DEFAULT_LIBVIRT_URI,
+        #libvirt_uri: str = consts.DEFAULT_LIBVIRT_URI,
+        libvirt_uri: str,
     ):
         super().__init__(config, entity_config)
+        libvirt_uri = self._entity_config.libvirt_uri
+        log.info("Current libvirt uri: %s", libvirt_uri)
         self.libvirt_connection: libvirt.virConnect = libvirt.open(libvirt_uri)
         self.private_ssh_key_path: Path = config.private_ssh_key_path
         self._setup_timestamp: str = utils.run_command('date +"%Y-%m-%d %T"')[0]
@@ -46,6 +49,8 @@ class LibvirtController(NodeController, ABC):
     @staticmethod
     @contextmanager
     def connection_context(libvirt_uri: str = consts.DEFAULT_LIBVIRT_URI):
+        libvirt_uri = "qemu+ssh://root@172.23.236.34/system"
+        log.info("Current libvirt uri: %s", libvirt_uri)
         conn = libvirt.open(libvirt_uri)
         try:
             yield conn

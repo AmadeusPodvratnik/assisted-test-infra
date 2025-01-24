@@ -357,8 +357,8 @@ download_iso:
 ###################
 # infra_env files #
 ###################
-download_files:
-	$(MAKE) test TEST_TEARDOWN=no TEST=./src/tests/test_targets.py TEST_FUNC=test_target_download_files
+download_ipxe:
+	$(MAKE) test TEST_TEARDOWN=no TEST=./src/tests/test_targets.py TEST_FUNC=test_target_download_ipxe_script
 
 ########
 # Test #
